@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy import pi, sqrt, linspace, cos, sin, tan
-from scipy.optimize import fsolve
+from scipy.optimize import fsolve, newton
 
 
 def PMfunc(Mg, nu, G1, G2):
@@ -48,7 +48,7 @@ def PMF(G, M, nu, mu):
         M = np.zeros_like(nu)
         for i in range(len(nu)):
             # for j in range(len(nu[:, 0])):
-            M[i] = fsolve(PMfunc, np.array([1]), args=(nu[i], Gp, Gm))
+            M[i] = newton(PMfunc, 1.2, args=(nu[i], Gp, Gm))
         mu = np.arcsin(np.divide(1.0, M))
     
     # For known mu
@@ -66,10 +66,10 @@ def PMF(G, M, nu, mu):
 G = 1.4
 # Goal Exit Mach Number
 # Me = int(input('Enter Exit Mach Number, integer: '))
-Me = 3.1
+Me = 10
 # Mesh Size
 # n = int(input('Enter mesh size, integer: '))
-n = 10
+n = 150
 # Expansion Section circle radius
 r = 0.4
 
