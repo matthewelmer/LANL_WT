@@ -6,8 +6,8 @@ from scipy.optimize import fsolve
 
 def PMfunc(Mg, nu, G1, G2):
     '''Prantdl-Meyer equation as a function to be used in fsolve to solve for Mach #'''
-    return np.subtract(np.subtract(np.multiply(sqrt(G1 / G2), np.arctan(sqrt(np.multiply((G2 / G1), np.subtract(
-        np.power(Mg, 2), 1))))), np.arctan(sqrt(np.subtract(np.power(Mg, 2), 1)))), nu)
+    
+    return np.sqrt(G1/G2)*np.arctan(np.sqrt((G2/G1)*(Mg**2 - 1))) - np.arctan(np.sqrt(Mg**2 - 1)) - nu
 
 
 def expansion_points(r, theta, n):
@@ -65,9 +65,11 @@ def PMF(G, M, nu, mu):
 # Gamma for working fluid
 G = 1.4
 # Goal Exit Mach Number
-Me = 3
+# Me = int(input('Enter Exit Mach Number, integer: '))
+Me = 3.1
 # Mesh Size
-n = int(input('Enter mesh size, integer: '))
+# n = int(input('Enter mesh size, integer: '))
+n = 10
 # Expansion Section circle radius
 r = 0.4
 
@@ -114,6 +116,7 @@ for i in range(1, n):
     # plot
     plt.plot([x_list[i], x[i, 0]], [y_list[i], y[i, 0]])
 
+# plt.show()
 # Find flow properties for the characteristic web
 for j in range(1, n):
     for i in range(n - j):
@@ -169,7 +172,6 @@ webs = tan(np.copy(Theta[n - 1, 0] + Mu[n - 1, 0]))
 # find the first point in the straightening section
 xwall[0] = np.copy(((y[n - 1, 0] - x[n - 1, 0] * webs) - (y0 - x0 * walls)) / (walls - webs))
 ywall[0] = np.copy(y0 + (xwall[0] - x0) * walls)
-
 # find all the wall points in the straightening section
 for j in range(1, n):
     # find the slope of the wall and the slope of the web
@@ -177,8 +179,9 @@ for j in range(1, n):
     webs = tan(np.copy(Theta[n - j - 1, j] + Mu[n - j - 1, j]))
     # put the points x and y at the intersection
     xwall[j] = np.copy(
-        (y[n - j, j - 1] - ywall[j - 1] - x[n - j, j - 1] * webs + xwall[j - 1] * walls) / (walls - webs))
-    ywall[j] = np.copy((xwall[j] - x[n - j, j - 1]) * webs + y[n - j, j - 1])
+        (y[n - j - 1, j] - ywall[j - 1] - x[n - j - 1, j] * webs + xwall[j - 1] * walls) / (walls - webs))
+    ywall[j] = np.copy((xwall[j] - x[n - j - 1, j]) * webs + y[n - j - 1, j])
+
 
 # plot walls
 plt.plot(np.concatenate((x_list, xwall)), np.concatenate((y_list, ywall)))
@@ -200,5 +203,6 @@ for c in range(n):
 plt.xlim([0, np.amax(xwall)])
 plt.axis('equal')
 plt.title(('Method of Characteristics, M=' + str(Me) + ', Mesh Size, n=' + str(n) + ', and gamma=' + str(G)))
+
 plt.show()
 print()
