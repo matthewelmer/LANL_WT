@@ -157,7 +157,10 @@ class GENozzle:
         x_edge_1 = np.interp(x_edge, (x_edge.min(), x_edge.max()), (xmin1, xmx1))
         y_edge_1 = np.interp(y_edge, (y_edge.min(), y_edge.max()), (ymin1, ymx1))
         return x_edge_1, y_edge_1
-
+    
+    def xyarrays(self):
+        return self.x, self.y
+    
     def get_scaled_length(self, exit_height):
         x_edge, y_edge = self.scale_wall_points(exit_height)
         return np.amax(x_edge)
@@ -177,11 +180,14 @@ class GENozzle:
         plt.plot(x, -y, c='k')
         plt.xlim([0, np.amax(self.x_wall)])
         plt.axis('equal')
-        plt.title(('Method of Characteristics, M=' + str(self.Me) + ', Mesh Size, n=' + str(
-            self.n) + ', gamma=' + str(self.G), 'and Exit Height =', str(exit_height)))
+        plt.title('Method of Characteristics, M=' + str(self.Me) + ', Mesh Size, n=' + str(self.n) + ', $\gamma$=' +
+                  str(self.G) + 'and Exit Height =' + str(exit_height))
         plt.grid()
         plt.show()
         
+    def get_mach_at_walls(self):
+        return self.mach
+    
     def plotter(self, full=False):
         plt.figure()
     
@@ -217,7 +223,8 @@ class GENozzle:
         # figure settings
         plt.xlim([0, np.amax(self.x_wall)])
         plt.axis('equal')
-        plt.title(('Method of Characteristics, M=' + str(self.Me) + ', Mesh Size, n=' + str(self.n) + ', and gamma=' + str(self.G)))
+        plt.title('Method of Characteristics, M=' + str(self.Me) + ', Mesh Size, n=' + str(self.n) + ', and $\gamma$='
+                  + str(self.G))
         plt.show()
 
 
