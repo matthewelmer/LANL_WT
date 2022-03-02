@@ -17,7 +17,7 @@ def betafunc(mach, delta, gamma=1.4):
     c = (2 * mach**2 + 1) / mach**4 + ((gamma + 1)**2 / 4 + (gamma - 1) / mach**2) * np.sin(delta)**2
     d = -np.cos(delta)**2 / mach**4
     roots = solve_cubic(1, b, c, d)
-    rootscpy = np.copy(roots)
+    # rootscpy = np.copy(roots)
     roots = np.delete(roots, roots.argmin())
     roots = np.delete(roots, roots.argmax())
 
@@ -185,10 +185,15 @@ for i in range(len(Mi)):
     print(f"p: {p_arr}")
     print(f"beta: {beta_arr * RAD_TO_DEG}")
     print(f"total diffuser length: {length} meters")
-    print(f"target stagnation pressure ratio: {Pt2oPt1(Mi[i])}")
-    print(f"stagnation pressure ratio: {p0_arr[-1] / p0_arr[0]}")
+    normalshock_pressure_ratio = Pt2oPt1(Mi[i])
+    print(f"target stagnation pressure ratio: {normalshock_pressure_ratio}")
+    stagnation_pressure_ratio = p0_arr[-1] / p0_arr[0]
+    print(f"stagnation pressure ratio: {stagnation_pressure_ratio}")
     subplots[i].plot([wedge_length, length], [wedge_height, wedge_height], color="k")
     subplots[i].plot([wedge_length, length], [test_section_h_w - wedge_height, test_section_h_w - wedge_height], color="k")
+    subplots[i].text(subplots[i].get_xlim()[0], subplots[i].get_ylim()[0] + 0.5, f"$\\frac{{p_{{0, 2}}}}{{p_{{0, 1}}}}$ (ideal) = {stagnation_pressure_ratio:.3f}")
+    subplots[i].text((subplots[i].get_xlim()[0] + subplots[i].get_xlim()[1]) / 2, subplots[i].get_ylim()[0] + 0.5, f"$\\frac{{p_{{0, 2}}}}{{p_{{0, 1}}}}$ (normal shock) = {normalshock_pressure_ratio:.3f}", horizontalalignment="center")
+    subplots[i].text(subplots[i].get_xlim()[1], subplots[i].get_ylim()[0] + 0.5, f"$\delta$ = {delta[i] * RAD_TO_DEG}$^\circ$", horizontalalignment="right")
     
     print()
 
