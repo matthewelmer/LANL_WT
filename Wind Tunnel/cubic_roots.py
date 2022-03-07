@@ -1,3 +1,10 @@
+################################################################################
+# Created 3/2/2022 by Matthew Elmer
+# Used to solve for the three roots of a cubic polynomial
+# Part of an AERO 402 senior design project at Texas A&M University
+# in conjunction with Los Alamos National Labs
+################################################################################
+
 import cmath
 import numpy as np
 
@@ -34,10 +41,11 @@ def solve_cubic(a:float, b:float, c:float, d:float, epsilon:float = 1e-6):
     return roots
 
 if __name__ == "__main__":
-    # check these answers with this:
+    # compare results with this:
     # https://www.wolframalpha.com/widgets/view.jsp?id=578d50248844454e46e24e9ed230843d
     print(f"solve_cubic(2, 3, -11, -6) = {solve_cubic(2, 3, -11, -6)}")
     print(f"solve_cubic(1, 2, 3, 4) = {solve_cubic(1, 2, 3, 4)}")
     print(f"solve_cubic(1, 3, 3, 2) = {solve_cubic(1, 3, 3, 2)}")
     print(f"solve_cubic(1, 3, 3, 1) = {solve_cubic(1, 3, 3, 1)}")
     print(f"solve_cubic(2, 2, 31/9, 1) = {solve_cubic(2, 2, 31/9, 1)}")
+    # All of the above test cases produce correct results.
