@@ -1,3 +1,10 @@
+################################################################################
+# Created 3/2/2022 by Matthew Elmer and Christopher Summers
+# Used to approximate the flow fields in a diffuser
+# Part of an AERO 402 senior design project at Texas A&M University
+# in conjunction with Los Alamos National Labs
+################################################################################
+
 import numpy as np
 import matplotlib.pyplot as plt
 from cubic_roots import solve_cubic
